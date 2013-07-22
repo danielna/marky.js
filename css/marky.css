@@ -1,0 +1,7 @@
+/* line 1, ../sass/marky.sass */
+#marky-btn {
+  position: fixed;
+  color: red;
+  top: 10px;
+  right: 10px;
+}
