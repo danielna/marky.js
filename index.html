@@ -2,10 +2,9 @@
 <head>
     <title>Marky.js</title>
     <link rel="stylesheet" href="css/page.css">
-    <link rel="stylesheet" href="css/marky.css">
 </head>
 <body>
-    <a href="#" id="marky-btn">marky</a>
+    <!-- <a href="#" id="marky-btn">marky</a> -->
     <h1>Marky.js</h1>
     <img src="mark.jpg" alt="Say hi to your mother for me, alright?"/>
     <p class="subtitle">
@@ -13,6 +12,7 @@
     </p>
     <div id="bookmarklet">
         <h2>Drag to your bookmarks toolbar:</h2>
+        <a href="javascript:(function(){_markyjs=document.createElement('SCRIPT');_markyjs.type='text/javascript';_markyjs.src='js/marky.js';_markyjs.id='marky-script';document.getElementsByTagName('head')[0].appendChild(_markyjs);_markycss=document.createElement('link');_markycss.setAttribute('href','css/marky.css');_markycss.setAttribute('rel','stylesheet');_markycss.setAttribute('type','text/css');document.getElementsByTagName('head')[0].appendChild(_markycss);})();">marky</a>
     </div>
     <hr/>
     <p>
@@ -30,6 +30,6 @@
     <p>
         <img src="marky.gif"/>
     </p>
-    <script src="js/marky.js"/>
+    <!-- <script src="js/marky.js"></script> -->
 </body>
 </html>
