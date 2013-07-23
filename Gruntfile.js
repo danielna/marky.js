@@ -12,13 +12,21 @@ module.exports = function(grunt) {
         src: 'js/<%= pkg.name %>.js',
         dest: 'js/<%= pkg.name %>.min.js'
       }
+    },
+    cssmin: {
+      add_banner: {
+        files: {
+          'css/<%= pkg.name %>.min.css': ['css/*.css']
+        }
+      }
     }
   });
 
   // Load the plugin that provides the "uglify" task.
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
 
   // Default task(s).
-  grunt.registerTask('default', ['uglify']);
+  grunt.registerTask('default', ['uglify', 'cssmin']);
 
 };
