@@ -1,5 +1,6 @@
 # Todo:
-# If marky is loaded, don't load it again.
+# Make the store URL-specific
+# Focus to the textbox when clicking "Mark"
 
 Object.size = (obj) ->
     size = 0
