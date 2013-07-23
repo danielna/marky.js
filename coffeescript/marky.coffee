@@ -39,7 +39,7 @@ class Marky
 
     injectCss: () ->
         _markycss = document.createElement('link')
-        _markycss.setAttribute('href','https://raw.github.com/danielna/marky.js/master/css/marky.min.css')
+        _markycss.setAttribute('href','http://labs.danielna.com/marky/marky.min.css')
         _markycss.setAttribute('rel','stylesheet')
         _markycss.setAttribute('type','text/css')
         _markycss.id = "marky-css"
