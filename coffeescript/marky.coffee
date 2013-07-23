@@ -1,3 +1,9 @@
+# Todo:
+# Save typed name of mark
+# Delete marks when active
+# Figure out the FE
+# Distinguish overlapping marks somehow
+
 
 hasLocalStorage = if localStorage then true else false
 markyBtn = document.getElementById("marky-btn")
@@ -27,26 +33,39 @@ if (hasLocalStorage and not markyBtn)
 
     markyBtn.onclick = (e) ->
         e.preventDefault()
+        if this.className is "active"
+            return resetAll()
+        markyTextContainer = document.getElementById("marky-text-container")
+        markyText = document.getElementById("marky-text")
         scrollPos = document.body.scrollTop
         this.className = "active"
-        document.getElementById("marky-text-container").style.display = "block"
-        savePosition(scrollPos)
+        markyTextContainer.style.display = "block"
+        markyTextContainer.setAttribute("data-pos", scrollPos)
+        markyText.onkeypress = (e) ->
+            if e.keyCode is 13
+                savePosition(markyTextContainer.getAttribute("data-pos"), markyText.value)
+            return
+
+        # setTimeout(resetAll(), 500)
+        # savePosition(scrollPos)
         return
 
-    savePosition = (pos) ->
+    savePosition = (pos, name) ->
         now = new Date()
         nowDateString = now.getMonth() + "/" + now.getDate() + "- " + now.getHours() + ":" + now.getMinutes()
         obj = {}
-        obj[pos] = nowDateString
+        name = name ? ""
+        obj[pos] = name
 
         if (localStorage.getItem("marky-btn"))
             markyStore = JSON.parse( localStorage.getItem "marky-btn" )
-            markyStore[pos] = nowDateString
+            markyStore[pos] = name
 
         if (markyStore) then obj = markyStore
 
         localStorage.setItem( "marky-btn", JSON.stringify(obj) )
         renderPositions()
+        resetAll()
         return
 
     getPositions = () ->
@@ -58,9 +77,8 @@ if (hasLocalStorage and not markyBtn)
         for position of markPositions
             top = Math.floor((position/(documentHeight - windowHeight)) * windowHeight) + "px"
             console.log("percentage:", top)
-            temp = document.createElement('a')
-            temp.href = '#'
-            temp.innerHTML = "<span>blah</span>"
+            temp = document.createElement('div')
+            temp.innerHTML = "<span class='title'>" + markPositions[position] + "</span><span class='edge'></span>"
             temp.className = 'marky-mark'
             temp.style.top = top
             temp.setAttribute("data-loc", position)
@@ -70,11 +88,25 @@ if (hasLocalStorage and not markyBtn)
         for marker in markers
             marker.onclick = (e) ->
                 e.preventDefault()
+                resetMarkers()
                 this.className = this.className + " active"
                 pos = this.getAttribute("data-loc")
                 window.scrollTo(0, pos);
                 return
         return
+
+    resetMarkers = () ->
+        markers = document.getElementsByClassName('marky-mark')
+        for marker in markers
+            marker.className = "marky-mark"
+        return
+
+    resetAll = () ->
+        document.getElementById("marky-text-container").style.display = "none"
+        document.getElementById("marky-text-container").removeAttribute("data-pos")
+        document.getElementById("marky-text").value = ""
+        document.getElementById("marky-btn").className = ""
+
 
 
     renderPositions()

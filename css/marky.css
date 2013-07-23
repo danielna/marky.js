@@ -29,45 +29,47 @@
   font-size: 11px;
   color: red;
   top: 0px;
-  right: 80px;
+  right: 90px;
   width: auto;
   text-decoration: none;
-  background-color: white;
-  border: 2px solid #999999;
   border-top: 0px;
-  padding: 2px;
   box-sizing: border-box;
 }
-/* line 32, ../sass/marky.sass */
+/* line 31, ../sass/marky.sass */
 #marky-text-container input {
   width: 100px;
 }
 
-/* line 35, ../sass/marky.sass */
-a.marky-mark {
+/* line 34, ../sass/marky.sass */
+.marky-mark {
   position: fixed;
   display: block;
   right: 0;
-  border-right: 8px solid red;
   z-index: 100;
-  width: 3px;
-  height: 14px;
   text-decoration: none;
 }
-/* line 47, ../sass/marky.sass */
-a.marky-mark span {
+/* line 40, ../sass/marky.sass */
+.marky-mark .title {
   display: none;
   font-size: 10px;
 }
-/* line 50, ../sass/marky.sass */
-a.marky-mark:hover, a.marky-mark.active {
-  z-index: 1000;
-  width: auto;
-  height: auto;
-  outline: 1px solid white;
+/* line 43, ../sass/marky.sass */
+.marky-mark .edge {
+  display: inline-block;
+  width: 20px;
+  height: 5px;
+  background-color: red;
 }
-/* line 55, ../sass/marky.sass */
-a.marky-mark:hover span, a.marky-mark.active span {
+/* line 48, ../sass/marky.sass */
+.marky-mark:hover, .marky-mark.active {
+  z-index: 1000;
+}
+/* line 50, ../sass/marky.sass */
+.marky-mark:hover .title, .marky-mark.active .title {
   display: inline;
-  margin-right: 2px;
+  margin-right: 3px;
+}
+/* line 53, ../sass/marky.sass */
+.marky-mark:hover .edge, .marky-mark.active .edge {
+  width: 30px;
 }
