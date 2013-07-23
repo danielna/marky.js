@@ -1,5 +1,6 @@
 /* line 3, ../sass/marky.sass */
 #marky-btn {
+  z-index: 10000;
   position: fixed;
   font-size: 12px;
   color: blue;
@@ -17,18 +18,19 @@
   -o-border-radius: 0 0 4px 4px;
   border-radius: 0 0 4px 4px;
 }
-/* line 16, ../sass/marky.sass */
+/* line 17, ../sass/marky.sass */
 #marky-btn:hover, #marky-btn.active {
   background-color: #0088cc;
   color: white;
 }
-/* line 19, ../sass/marky.sass */
+/* line 20, ../sass/marky.sass */
 #marky-btn .marky-expand {
   margin-left: 10px;
 }
 
-/* line 21, ../sass/marky.sass */
+/* line 22, ../sass/marky.sass */
 #marky-text-container {
+  z-index: 10000;
   display: none;
   position: fixed;
   font-size: 11px;
@@ -39,27 +41,27 @@
   border-top: 0px;
   box-sizing: border-box;
 }
-/* line 31, ../sass/marky.sass */
+/* line 33, ../sass/marky.sass */
 #marky-text-container input {
   width: 100px;
 }
 
-/* line 34, ../sass/marky.sass */
+/* line 36, ../sass/marky.sass */
 .marky-mark {
   position: fixed;
   display: block;
   right: 0;
-  z-index: 100;
+  z-index: 10000;
   text-decoration: none;
 }
-/* line 40, ../sass/marky.sass */
+/* line 42, ../sass/marky.sass */
 .marky-mark .title, .marky-mark .close {
   display: none;
   font-size: 10px;
   line-height: 10px;
   text-shadow: 2px 2px white;
 }
-/* line 45, ../sass/marky.sass */
+/* line 47, ../sass/marky.sass */
 .marky-mark .edge {
   display: inline-block;
   width: 20px;
@@ -69,16 +71,16 @@
   -moz-box-shadow: 1px 1px 3px #999999;
   box-shadow: 1px 1px 3px #999999;
 }
-/* line 51, ../sass/marky.sass */
+/* line 53, ../sass/marky.sass */
 .marky-mark:hover, .marky-mark.active {
-  z-index: 1000;
+  z-index: 10001;
   cursor: pointer;
 }
-/* line 54, ../sass/marky.sass */
+/* line 56, ../sass/marky.sass */
 .marky-mark:hover .title, .marky-mark:hover .close, .marky-mark.active .title, .marky-mark.active .close {
   display: inline;
 }
-/* line 56, ../sass/marky.sass */
+/* line 58, ../sass/marky.sass */
 .marky-mark:hover .close, .marky-mark.active .close {
   font-family: Courier;
   font-weight: bold;
@@ -86,12 +88,12 @@
   margin-left: 1px;
   margin-right: 1px;
 }
-/* line 62, ../sass/marky.sass */
+/* line 64, ../sass/marky.sass */
 .marky-mark:hover .close:hover, .marky-mark.active .close:hover {
   color: #666666;
   cursor: pointer;
 }
-/* line 65, ../sass/marky.sass */
+/* line 67, ../sass/marky.sass */
 .marky-mark:hover .edge, .marky-mark.active .edge {
   width: 30px;
 }

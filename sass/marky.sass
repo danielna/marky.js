@@ -1,6 +1,7 @@
 @import "compass/css3"
 
 #marky-btn
+    z-index: 10000
     position: fixed
     font-size: 12px
     color: blue
@@ -19,6 +20,7 @@
     .marky-expand
         margin-left: 10px
 #marky-text-container
+    z-index: 10000
     display: none
     position: fixed
     font-size: 11px
@@ -35,7 +37,7 @@
     position: fixed
     display: block
     right: 0
-    z-index: 100
+    z-index: 10000
     text-decoration: none
     .title, .close
         display: none
@@ -49,7 +51,7 @@
         background-color: #0088CC
         +box-shadow(1px 1px 3px #999)
     &:hover, &.active
-        z-index: 1000
+        z-index: 10001
         cursor: pointer
         .title, .close
             display: inline
