@@ -1,0 +1,38 @@
+<!doctype html>
+<head>
+    <title>Marky.js</title>
+    <link rel="stylesheet" href="css/page.min.css">
+</head>
+<body>
+    <article class="top">
+        <h1>Marky.js</h1>
+        <img src="mark.jpg"/>
+        <p class="subtitle">
+            Say hi to your mother for me, alright?
+        </p>
+    </article>
+    <article class="bookmarklet">
+        <h2>Drag to your bookmarks toolbar</h2>
+        <a href="javascript:(function(){if(!window._marky){_markyjs=document.createElement('SCRIPT');_markyjs.type='text/javascript';_markyjs.src='http://labs.danielna.com/marky/marky.min.js';_markyjs.id='marky-script';document.getElementsByTagName('head')[0].appendChild(_markyjs);} else { window._marky.destroy(); }})();">marky</a>
+    </article>
+    <article class="description">
+        <div class="container">
+            <p>
+                Note: this library actually has nothing to do with Marky Mark or Mark Wahlberg.  It's a bookmarklet that needed a name.
+            </p>
+            <p>
+                <strong>Marky.js</strong> is a bookmarklet that will mark your current location on a long page.  That location will be stored in your browser using the HTML5 LocalStorage API, so there's no worry of the NSA tracking your reading progress through wikipedia.
+            </p>
+            <p>
+                This is useful when doing things like keeping track of progress through extended, single-page programming tutorials, which is the specific problem I'm writing this bookmarklet to fix.
+            </p>
+            <p>
+                This bookmarklet is an exploration of bookmarklets, jQuery-less DOM manipulation, Coffeescript and LocalStorage.
+            </p>
+            <p>
+                This should work in Chrome and Firefox.  If you're working in IE YMMV, like it will with the rest of the Internet.
+            </p>
+        </div>
+    </article>
+</body>
+</html>
