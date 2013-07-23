@@ -1,72 +1,95 @@
 # Todo:
-# Delete marks when active
-# Figure out the FE
-# Distinguish overlapping marks somehow
+# If marky is loaded, don't load it again.
 
-hasLocalStorage = if localStorage then true else false
-markyBtn = document.getElementById("marky-btn")
+Object.size = (obj) ->
+    size = 0
+    for key in obj
+        size++ if obj.hasOwnProperty(key)
+    return size
 
-_markycss = document.createElement('link');
-_markycss.setAttribute('href','css/marky.css');
-_markycss.setAttribute('rel','stylesheet');
-_markycss.setAttribute('type','text/css');
-document.getElementsByTagName('head')[0].appendChild(_markycss);
+class Marky
+    constructor: () ->
+        hasLocalStorage = if localStorage then true else false
+        if window._marky
+            this.destroy()
+            return
+        else if hasLocalStorage
+            this.init()
+        else
+            console.error "Something went wrong or LocalStorage is not enabled in your browser."
 
-# FF detection hack
-FF = window.mozInnerScreenX is not null
+    init: () ->
+        window._marky = this
+        @isFF = window.mozInnerScreenX is not null
+        @markyBtn
+        @markyTextContainer
+        @markyTextBox
+        @documentHeight = Math.max(
+            document.body.scrollHeight, document.documentElement.scrollHeight,
+            document.body.offsetHeight, document.documentElement.offsetHeight,
+            document.body.clientHeight, document.documentElement.clientHeight
+            )
+        @windowHeight = window.innerHeight
 
-if (hasLocalStorage and not markyBtn)
-    markyBtnDom = document.createElement('a')
-    markyBtnDom.id = 'marky-btn'
-    markyBtnDom.href = '#'
-    markyBtnDom.innerHTML = 'mark!' 
-    document.getElementsByTagName('body')[0].appendChild(markyBtnDom)
+        # the jump off
+        this.injectCss()
+        this.createDomElements()
+        this.renderPositions()
+        return
 
-    markyTextDiv = document.createElement('div')
-    markyTextDiv.id = 'marky-text-container'
-    markyTextDiv.innerHTML = '<input type="text" id="marky-text">' 
-    document.getElementsByTagName('body')[0].appendChild(markyTextDiv)
+    injectCss: () ->
+        _markycss = document.createElement('link')
+        _markycss.setAttribute('href','css/marky.css')
+        _markycss.setAttribute('rel','stylesheet')
+        _markycss.setAttribute('type','text/css')
+        _markycss.id = "marky-css"
+        document.getElementsByTagName('head')[0].appendChild(_markycss)
+        return
 
-    markyBtn = document.getElementById("marky-btn")
+    createDomElements: () ->
+        self = this
 
-    D = document
-    documentHeight = Math.max(
-        D.body.scrollHeight, D.documentElement.scrollHeight,
-        D.body.offsetHeight, D.documentElement.offsetHeight,
-        D.body.clientHeight, D.documentElement.clientHeight
-    )
+        # the mark! button
+        markyBtnDom = document.createElement('a')
+        markyBtnDom.id = 'marky-btn'
+        markyBtnDom.href = '#'
+        markyBtnDom.innerHTML = 'mark!' 
+        document.getElementsByTagName('body')[0].appendChild(markyBtnDom)
 
-    windowHeight = window.innerHeight
+        # the text input box
+        markyTextDiv = document.createElement('div')
+        markyTextDiv.id = 'marky-text-container'
+        markyTextDiv.innerHTML = '<input type="text" id="marky-text">' 
+        document.getElementsByTagName('body')[0].appendChild(markyTextDiv)
 
-    Object.size = (obj) ->
-        size = 0
-        for key in obj
-            size++ if obj.hasOwnProperty(key)
-        return size
+        @markyBtn = document.getElementById("marky-btn")
+        @markyTextContainer = document.getElementById("marky-text-container")
+        @markyTextBox = document.getElementById("marky-text")
 
-    markyBtn.onclick = (e) ->
-        e.preventDefault()
-        if this.className is "active"
-            return resetAll()
-        markyTextContainer = document.getElementById("marky-text-container")
-        markyText = document.getElementById("marky-text")
-        # FF detection hack
-        scrollPos = if FF then document.documentElement.scrollTop else document.body.scrollTop
-        this.className = "active"
-        markyTextContainer.style.display = "block"
-        markyTextContainer.setAttribute("data-pos", scrollPos)
-        markyText.onkeypress = (e) ->
-            if e.keyCode is 13
-                savePosition(markyTextContainer.getAttribute("data-pos"), markyText.value)
+        # create the click handler for the mark! button
+        @markyBtn.onclick = (e) ->
+            e.preventDefault()
+
+            if this.className is "active"
+                return self.resetAll()
+
+            # FF detection hack
+            scrollPos = if @isFF then document.documentElement.scrollTop else document.body.scrollTop
+
+            this.className = "active"
+            self.markyTextContainer.style.display = "block"
+            self.markyTextContainer.setAttribute("data-pos", scrollPos)
+
+            self.markyTextBox.onkeypress = (e) ->
+                if e.keyCode is 13
+                    self.savePosition(self.markyTextContainer.getAttribute("data-pos"), self.markyTextBox.value)
+                return
             return
         return
 
-    savePosition = (pos, name) ->
-        now = new Date()
-        nowDateString = now.getMonth() + "/" + now.getDate() + "- " + now.getHours() + ":" + now.getMinutes()
+    savePosition: (pos, name) ->
         obj = {}
-        name = name ? ""
-        obj[pos] = name
+        obj[pos] = name ? ""
 
         if (localStorage.getItem("marky-btn"))
             markyStore = JSON.parse( localStorage.getItem "marky-btn" )
@@ -75,34 +98,35 @@ if (hasLocalStorage and not markyBtn)
         if (markyStore) then obj = markyStore
 
         localStorage.setItem( "marky-btn", JSON.stringify(obj) )
-        renderPositions()
-        resetAll()
+        this.renderPositions()
+        this.resetAll()
         return
 
-    removePosition = (pos) ->
+    removePosition: (pos) ->
         if (localStorage.getItem("marky-btn"))
             markyStore = JSON.parse( localStorage.getItem "marky-btn" )
             delete(markyStore[pos]) if markyStore[pos]
             localStorage.setItem( "marky-btn", JSON.stringify(markyStore) )
-            renderPositions()
-            resetAll()
+            this.renderPositions()
+            this.resetAll()
         return
 
-    getPositions = () ->
+    getPositions: () ->
         JSON.parse(localStorage.getItem("marky-btn"))
 
-    clearOldPositions = () ->
+    clearOldPositions: () ->
         markers = document.getElementsByClassName('marky-mark')
         for marker in markers
             if (marker)
                 marker.parentNode.removeChild(marker)
 
-    renderPositions = () ->
-        clearOldPositions()
+    renderPositions: () ->
+        self = this
+        this.clearOldPositions()
 
-        markPositions = getPositions()
+        markPositions = this.getPositions()
         for position of markPositions
-            top = Math.floor((position/(documentHeight - windowHeight)) * windowHeight) + "px"
+            top = Math.floor((position/(@documentHeight - @windowHeight)) * @windowHeight) + "px"
             temp = document.createElement('div')
             temp.innerHTML = "<span class='title'>" + markPositions[position] + "</span><span class='close' title='Delete'>[x]</span><span class='edge'></span>"
             temp.className = 'marky-mark'
@@ -117,29 +141,43 @@ if (hasLocalStorage and not markyBtn)
                 target = e.target
                 if target.className is "close"
                     removeLocation = target.parentNode.getAttribute("data-loc")
-                    removePosition(removeLocation)
-                    renderPositions()
+                    self.removePosition(removeLocation)
+                    self.renderPositions()
                 else
                     this.className = this.className + " active"
                     pos = this.getAttribute("data-loc")
                     window.scrollTo(0, pos);
-                    resetMarkers()
+                    self.resetMarkers()
                 return
         return
 
-    resetMarkers = () ->
+    resetMarkers: () ->
         markers = document.getElementsByClassName('marky-mark')
         for marker in markers
             marker.className = "marky-mark"
         return
 
-    resetAll = () ->
-        document.getElementById("marky-text-container").style.display = "none"
-        document.getElementById("marky-text-container").removeAttribute("data-pos")
-        document.getElementById("marky-text").value = ""
-        document.getElementById("marky-btn").className = ""
+    resetAll: () ->
+        @markyTextContainer.style.display = "none"
+        @markyTextContainer.removeAttribute("data-pos")
+        @markyTextBox.value = ""
+        @markyBtn.className = ""
 
+    destroy: () ->
+        css = document.getElementById("marky-css")
+        js = document.getElementById("marky-script")
+        btn = document.getElementById("marky-btn")
+        txtcontainer = document.getElementById("marky-text-container")
+        markers = document.getElementsByClassName('marky-mark')
+        for marker in markers by -1
+            if (marker)
+                marker.parentNode.removeChild(marker)
 
+        btn.parentNode.removeChild(btn)
+        txtcontainer.parentNode.removeChild(txtcontainer)
+        css.parentNode.removeChild(css)
+        js.parentNode.removeChild(js)
+        window._marky = null
 
-    renderPositions()
+Marky = new Marky()
 
