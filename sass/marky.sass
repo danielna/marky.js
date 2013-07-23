@@ -1,31 +1,31 @@
+@import "compass/css3"
+
 #marky-btn
     position: fixed
     font-size: 12px
-    color: #fff
+    color: blue
     top: 0px
     right: 200px
     text-decoration: none
-    background-color: green
-    border: 2px solid #999
+    background-color: #f9f9f9
+    border: 1px solid #999
     border-top: 0px
-    padding: 2px
+    padding: 4px
     box-sizing: border-box
+    +border-radius(0 0 4px 4px)
     &:hover, &.active
-        background-color: yellow
-        color: blue
+        background-color: #0088CC
+        color: #fff
     .marky-expand
         margin-left: 10px
 #marky-text-container
     display: none
     position: fixed
     font-size: 11px
-    color: red
     top: 0px
     right: 90px
     width: auto
     text-decoration: none
-    // background-color: #fff
-    // border: 2px solid #999
     border-top: 0px
     box-sizing: border-box
     input
@@ -41,11 +41,13 @@
         display: none
         font-size: 10px
         line-height: 10px
+        +text-shadow(2px 2px #fff)
     .edge
         display: inline-block
         width: 20px
         height: 5px
-        background-color: red
+        background-color: #0088CC
+        +box-shadow(1px 1px 3px #999)
     &:hover, &.active
         z-index: 1000
         cursor: pointer
