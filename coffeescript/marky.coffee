@@ -1,9 +1,7 @@
 # Todo:
-# Save typed name of mark
 # Delete marks when active
 # Figure out the FE
 # Distinguish overlapping marks somehow
-
 
 hasLocalStorage = if localStorage then true else false
 markyBtn = document.getElementById("marky-btn")
