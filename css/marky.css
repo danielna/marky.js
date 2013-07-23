@@ -64,12 +64,13 @@
 /* line 49, ../sass/marky.sass */
 .marky-mark:hover, .marky-mark.active {
   z-index: 1000;
+  cursor: pointer;
 }
-/* line 51, ../sass/marky.sass */
+/* line 52, ../sass/marky.sass */
 .marky-mark:hover .title, .marky-mark:hover .close, .marky-mark.active .title, .marky-mark.active .close {
   display: inline;
 }
-/* line 53, ../sass/marky.sass */
+/* line 54, ../sass/marky.sass */
 .marky-mark:hover .close, .marky-mark.active .close {
   font-family: Courier;
   font-weight: bold;
@@ -77,12 +78,12 @@
   margin-left: 1px;
   margin-right: 1px;
 }
-/* line 59, ../sass/marky.sass */
+/* line 60, ../sass/marky.sass */
 .marky-mark:hover .close:hover, .marky-mark.active .close:hover {
   color: #666666;
   cursor: pointer;
 }
-/* line 62, ../sass/marky.sass */
+/* line 63, ../sass/marky.sass */
 .marky-mark:hover .edge, .marky-mark.active .edge {
   width: 30px;
 }

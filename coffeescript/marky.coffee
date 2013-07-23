@@ -5,6 +5,13 @@
 
 hasLocalStorage = if localStorage then true else false
 markyBtn = document.getElementById("marky-btn")
+
+_markycss = document.createElement('link');
+_markycss.setAttribute('href','css/marky.css');
+_markycss.setAttribute('rel','stylesheet');
+_markycss.setAttribute('type','text/css');
+document.getElementsByTagName('head')[0].appendChild(_markycss);
+
 # FF detection hack
 FF = window.mozInnerScreenX is not null
 
@@ -52,9 +59,6 @@ if (hasLocalStorage and not markyBtn)
             if e.keyCode is 13
                 savePosition(markyTextContainer.getAttribute("data-pos"), markyText.value)
             return
-
-        # setTimeout(resetAll(), 500)
-        # savePosition(scrollPos)
         return
 
     savePosition = (pos, name) ->
@@ -75,15 +79,30 @@ if (hasLocalStorage and not markyBtn)
         resetAll()
         return
 
+    removePosition = (pos) ->
+        if (localStorage.getItem("marky-btn"))
+            markyStore = JSON.parse( localStorage.getItem "marky-btn" )
+            delete(markyStore[pos]) if markyStore[pos]
+            localStorage.setItem( "marky-btn", JSON.stringify(markyStore) )
+            renderPositions()
+            resetAll()
+        return
+
     getPositions = () ->
         JSON.parse(localStorage.getItem("marky-btn"))
 
+    clearOldPositions = () ->
+        markers = document.getElementsByClassName('marky-mark')
+        for marker in markers
+            if (marker)
+                marker.parentNode.removeChild(marker)
+
     renderPositions = () ->
+        clearOldPositions()
+
         markPositions = getPositions()
-        console.log("markPositions:", markPositions)
         for position of markPositions
             top = Math.floor((position/(documentHeight - windowHeight)) * windowHeight) + "px"
-            console.log("percentage:", top)
             temp = document.createElement('div')
             temp.innerHTML = "<span class='title'>" + markPositions[position] + "</span><span class='close' title='Delete'>[x]</span><span class='edge'></span>"
             temp.className = 'marky-mark'
@@ -95,10 +114,16 @@ if (hasLocalStorage and not markyBtn)
         for marker in markers
             marker.onclick = (e) ->
                 e.preventDefault()
-                resetMarkers()
-                this.className = this.className + " active"
-                pos = this.getAttribute("data-loc")
-                window.scrollTo(0, pos);
+                target = e.target
+                if target.className is "close"
+                    removeLocation = target.parentNode.getAttribute("data-loc")
+                    removePosition(removeLocation)
+                    renderPositions()
+                else
+                    this.className = this.className + " active"
+                    pos = this.getAttribute("data-loc")
+                    window.scrollTo(0, pos);
+                    resetMarkers()
                 return
         return
 
