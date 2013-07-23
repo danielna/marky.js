@@ -14,10 +14,12 @@ module.exports = function(grunt) {
       }
     },
     cssmin: {
-      add_banner: {
-        files: {
-          'css/<%= pkg.name %>.min.css': ['css/*.css']
-        }
+      minify: {
+        expand: true,
+        cwd: 'css/',
+        src: ['*.css', '!*.min.css'],
+        dest: 'css/',
+        ext: '.min.css'
       }
     }
   });
