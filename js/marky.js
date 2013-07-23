@@ -30,7 +30,7 @@
 
     Marky.prototype.init = function() {
       window._marky = this;
-      this.isFF = window.mozInnerScreenX === !null;
+      this.isFF = window.mozInnerScreenX !== null;
       this.markyBtn;
       this.markyTextContainer;
       this.markyTextBox;
@@ -72,7 +72,9 @@
         if (this.className === "active") {
           return self.resetAll();
         }
-        scrollPos = this.isFF ? document.documentElement.scrollTop : document.body.scrollTop;
+        scrollPos = self.isFF ? document.documentElement.scrollTop : document.body.scrollTop;
+        alert("@isFF:" + self.isFF);
+        alert("scrollPos:" + scrollPos);
         this.className = "active";
         self.markyTextContainer.style.display = "block";
         self.markyTextContainer.setAttribute("data-pos", scrollPos);
