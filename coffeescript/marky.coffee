@@ -20,7 +20,7 @@ class Marky
 
     init: () ->
         window._marky = this
-        @isFF = (window.mozInnerScreenX != null)
+        @isFF = if window.mozInnerScreenX then true else false
         @markyBtn
         @markyTextContainer
         @markyTextBox
@@ -75,6 +75,8 @@ class Marky
 
             # FF detection hack
             scrollPos = if self.isFF then document.documentElement.scrollTop else document.body.scrollTop
+
+            console.log("scrollPos:", scrollPos)
 
             this.className = "active"
             self.markyTextContainer.style.display = "block"
