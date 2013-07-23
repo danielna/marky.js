@@ -44,7 +44,7 @@
     Marky.prototype.injectCss = function() {
       var _markycss;
       _markycss = document.createElement('link');
-      _markycss.setAttribute('href', 'css/marky.css');
+      _markycss.setAttribute('href', 'https://raw.github.com/danielna/marky.js/master/css/marky.min.css');
       _markycss.setAttribute('rel', 'stylesheet');
       _markycss.setAttribute('type', 'text/css');
       _markycss.id = "marky-css";
@@ -73,8 +73,6 @@
           return self.resetAll();
         }
         scrollPos = self.isFF ? document.documentElement.scrollTop : document.body.scrollTop;
-        alert("@isFF:" + self.isFF);
-        alert("scrollPos:" + scrollPos);
         this.className = "active";
         self.markyTextContainer.style.display = "block";
         self.markyTextContainer.setAttribute("data-pos", scrollPos);
