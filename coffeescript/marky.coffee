@@ -5,6 +5,8 @@
 
 hasLocalStorage = if localStorage then true else false
 markyBtn = document.getElementById("marky-btn")
+# FF detection hack
+FF = window.mozInnerScreenX is not null
 
 if (hasLocalStorage and not markyBtn)
     markyBtnDom = document.createElement('a')
@@ -20,7 +22,13 @@ if (hasLocalStorage and not markyBtn)
 
     markyBtn = document.getElementById("marky-btn")
 
-    documentHeight = document.height
+    D = document
+    documentHeight = Math.max(
+        D.body.scrollHeight, D.documentElement.scrollHeight,
+        D.body.offsetHeight, D.documentElement.offsetHeight,
+        D.body.clientHeight, D.documentElement.clientHeight
+    )
+
     windowHeight = window.innerHeight
 
     Object.size = (obj) ->
@@ -35,7 +43,8 @@ if (hasLocalStorage and not markyBtn)
             return resetAll()
         markyTextContainer = document.getElementById("marky-text-container")
         markyText = document.getElementById("marky-text")
-        scrollPos = document.body.scrollTop
+        # FF detection hack
+        scrollPos = if FF then document.documentElement.scrollTop else document.body.scrollTop
         this.className = "active"
         markyTextContainer.style.display = "block"
         markyTextContainer.setAttribute("data-pos", scrollPos)
@@ -76,7 +85,7 @@ if (hasLocalStorage and not markyBtn)
             top = Math.floor((position/(documentHeight - windowHeight)) * windowHeight) + "px"
             console.log("percentage:", top)
             temp = document.createElement('div')
-            temp.innerHTML = "<span class='title'>" + markPositions[position] + "</span><span class='edge'></span>"
+            temp.innerHTML = "<span class='title'>" + markPositions[position] + "</span><span class='close' title='Delete'>[x]</span><span class='edge'></span>"
             temp.className = 'marky-mark'
             temp.style.top = top
             temp.setAttribute("data-loc", position)

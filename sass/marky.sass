@@ -37,9 +37,10 @@
     right: 0
     z-index: 100
     text-decoration: none
-    .title
+    .title, .close
         display: none
         font-size: 10px
+        line-height: 10px
     .edge
         display: inline-block
         width: 20px
@@ -47,8 +48,16 @@
         background-color: red
     &:hover, &.active
         z-index: 1000
-        .title
+        .title, .close
             display: inline
-            margin-right: 3px
+        .close
+            font-family: Courier
+            font-weight: bold
+            color: #333
+            margin-left: 1px
+            margin-right: 1px
+            &:hover
+                color: #666
+                cursor: pointer
         .edge
             width: 30px
