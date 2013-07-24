@@ -8,15 +8,26 @@
         <h1>Marky.js</h1>
         <img src="mark.jpg"/>
         <p class="subtitle">
-            Say hi to your mother for me, alright?
+            <a href="http://www.youtube.com/watch?v=c3e3KOCD_Pg" target="_blank">Say hi to your mother for me, alright?</a>
         </p>
     </article>
     <article class="bookmarklet">
         <h2>Drag to your bookmarks toolbar</h2>
-        <a href="javascript:(function(){if(!window._marky){_markyjs=document.createElement('SCRIPT');_markyjs.type='text/javascript';_markyjs.src='http://labs.danielna.com/marky/marky.min.js';_markyjs.id='marky-script';document.getElementsByTagName('head')[0].appendChild(_markyjs);} else { window._marky.destroy(); }})();">marky</a>
+        <a class="bookmarklet-btn" href="javascript:(function(){if(!window._marky){_markyjs=document.createElement('SCRIPT');_markyjs.type='text/javascript';_markyjs.src='http://labs.danielna.com/marky/marky.min.js';_markyjs.id='marky-script';document.getElementsByTagName('head')[0].appendChild(_markyjs);} else { window._marky.destroy(); }})();">marky</a>
     </article>
     <article class="description">
         <div class="container">
+            <h2>Usage</h2>
+            <ol>
+                <li>Drag the "marky" bookmarklet to your bookmarks toolbar.</li>
+                <li>When reading a long page that you'd like to mark positions in, click the "marky" bookmarklet to instantiate marky.</li>
+                <li>Scroll to the desired place to mark.  Click the "Mark!" button and enter a name in the textbox.  Press enter to save the mark.</li>
+                <li>If you click the "Mark!" button accidentally, click it again to close the textbox.</li>
+                <li>To navigate to a mark, select it from the right side of the screen.  Marks are positioned at heights that are relative to their position within the entire document.</li>
+                <li>To delete a mark, select the [x] near the mark name.</li>
+                <li>Click the bookmarklet again to hide/show markey from the screen.</li>
+            </ol>
+            <h2>Background</h2>
             <p>
                 Note: this library actually has nothing to do with Marky Mark or Mark Wahlberg.  It's a bookmarklet that needed a name.
             </p>
