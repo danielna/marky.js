@@ -1,7 +1,3 @@
-# Todo:
-# Make the store URL-specific
-# Focus to the textbox when clicking "Mark"
-
 Object.size = (obj) ->
     size = 0
     for key in obj
@@ -22,7 +18,7 @@ class Marky
     init: () ->
         window._marky = this
         @isFF = if (typeof window.mozInnerScreenX is 'number') then true else false
-        console.log("@isFF", @isFF)
+        # console.log("@isFF", @isFF)
         @markyBtn
         @markyTextContainer
         @markyTextBox
@@ -79,15 +75,18 @@ class Marky
             # FF detection hack
             scrollPos = if self.isFF then document.documentElement.scrollTop else document.body.scrollTop
 
-            console.log("scrollPos:", scrollPos)
+            # console.log("scrollPos:", scrollPos)
 
             this.className = "active"
             self.markyTextContainer.style.display = "block"
             self.markyTextContainer.setAttribute("data-pos", scrollPos)
+            self.markyTextBox.focus()
 
             self.markyTextBox.onkeypress = (e) ->
                 if e.keyCode is 13
                     self.savePosition(self.markyTextContainer.getAttribute("data-pos"), self.markyTextBox.value)
+                else if e.keyCode is 27
+                    self.resetAll()
                 return
             return
         return
@@ -96,28 +95,28 @@ class Marky
         obj = {}
         obj[pos] = name ? ""
 
-        if (localStorage.getItem("marky-btn"))
-            markyStore = JSON.parse( localStorage.getItem "marky-btn" )
+        if (localStorage.getItem("_marky:" + @windowHref))
+            markyStore = JSON.parse( localStorage.getItem("_marky:" + @windowHref) )
             markyStore[pos] = name
 
         if (markyStore) then obj = markyStore
 
-        localStorage.setItem( "marky-btn", JSON.stringify(obj) )
+        localStorage.setItem( "_marky:" + @windowHref, JSON.stringify(obj) )
         this.renderPositions()
         this.resetAll()
         return
 
     removePosition: (pos) ->
-        if (localStorage.getItem("marky-btn"))
-            markyStore = JSON.parse( localStorage.getItem "marky-btn" )
+        if (localStorage.getItem("_marky:" + @windowHref))
+            markyStore = JSON.parse( localStorage.getItem("_marky:" + @windowHref) )
             delete(markyStore[pos]) if markyStore[pos]
-            localStorage.setItem( "marky-btn", JSON.stringify(markyStore) )
+            localStorage.setItem( "_marky:" + @windowHref, JSON.stringify(markyStore) )
             this.renderPositions()
             this.resetAll()
         return
 
     getPositions: () ->
-        JSON.parse(localStorage.getItem("marky-btn"))
+        JSON.parse(localStorage.getItem("_marky:" + @windowHref))
 
     clearOldPositions: () ->
         markers = document.getElementsByClassName('marky-mark')

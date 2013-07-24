@@ -31,7 +31,6 @@
     Marky.prototype.init = function() {
       window._marky = this;
       this.isFF = typeof window.mozInnerScreenX === 'number' ? true : false;
-      console.log("@isFF", this.isFF);
       this.markyBtn;
       this.markyTextContainer;
       this.markyTextBox;
@@ -75,13 +74,15 @@
           return self.resetAll();
         }
         scrollPos = self.isFF ? document.documentElement.scrollTop : document.body.scrollTop;
-        console.log("scrollPos:", scrollPos);
         this.className = "active";
         self.markyTextContainer.style.display = "block";
         self.markyTextContainer.setAttribute("data-pos", scrollPos);
+        self.markyTextBox.focus();
         self.markyTextBox.onkeypress = function(e) {
           if (e.keyCode === 13) {
             self.savePosition(self.markyTextContainer.getAttribute("data-pos"), self.markyTextBox.value);
+          } else if (e.keyCode === 27) {
+            self.resetAll();
           }
         };
       };
@@ -91,33 +92,33 @@
       var markyStore, obj;
       obj = {};
       obj[pos] = name != null ? name : "";
-      if (localStorage.getItem("marky-btn")) {
-        markyStore = JSON.parse(localStorage.getItem("marky-btn"));
+      if (localStorage.getItem("_marky:" + this.windowHref)) {
+        markyStore = JSON.parse(localStorage.getItem("_marky:" + this.windowHref));
         markyStore[pos] = name;
       }
       if (markyStore) {
         obj = markyStore;
       }
-      localStorage.setItem("marky-btn", JSON.stringify(obj));
+      localStorage.setItem("_marky:" + this.windowHref, JSON.stringify(obj));
       this.renderPositions();
       this.resetAll();
     };
 
     Marky.prototype.removePosition = function(pos) {
       var markyStore;
-      if (localStorage.getItem("marky-btn")) {
-        markyStore = JSON.parse(localStorage.getItem("marky-btn"));
+      if (localStorage.getItem("_marky:" + this.windowHref)) {
+        markyStore = JSON.parse(localStorage.getItem("_marky:" + this.windowHref));
         if (markyStore[pos]) {
           delete markyStore[pos];
         }
-        localStorage.setItem("marky-btn", JSON.stringify(markyStore));
+        localStorage.setItem("_marky:" + this.windowHref, JSON.stringify(markyStore));
         this.renderPositions();
         this.resetAll();
       }
     };
 
     Marky.prototype.getPositions = function() {
-      return JSON.parse(localStorage.getItem("marky-btn"));
+      return JSON.parse(localStorage.getItem("_marky:" + this.windowHref));
     };
 
     Marky.prototype.clearOldPositions = function() {
