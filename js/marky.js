@@ -30,12 +30,14 @@
 
     Marky.prototype.init = function() {
       window._marky = this;
-      this.isFF = window.mozInnerScreenX ? true : false;
+      this.isFF = typeof window.mozInnerScreenX === 'number' ? true : false;
+      console.log("@isFF", this.isFF);
       this.markyBtn;
       this.markyTextContainer;
       this.markyTextBox;
       this.documentHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight, document.body.offsetHeight, document.documentElement.offsetHeight, document.body.clientHeight, document.documentElement.clientHeight);
       this.windowHeight = window.innerHeight;
+      this.windowHref = window.location.href;
       this.injectCss();
       this.createDomElements();
       this.renderPositions();
