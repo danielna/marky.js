@@ -21,7 +21,8 @@ class Marky
 
     init: () ->
         window._marky = this
-        @isFF = if window.mozInnerScreenX then true else false
+        @isFF = if (typeof window.mozInnerScreenX is 'number') then true else false
+        console.log("@isFF", @isFF)
         @markyBtn
         @markyTextContainer
         @markyTextBox
@@ -31,6 +32,7 @@ class Marky
             document.body.clientHeight, document.documentElement.clientHeight
             )
         @windowHeight = window.innerHeight
+        @windowHref = window.location.href
 
         # the jump off
         this.injectCss()
